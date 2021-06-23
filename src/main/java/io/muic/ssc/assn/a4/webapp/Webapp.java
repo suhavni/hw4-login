@@ -1,8 +1,5 @@
 package io.muic.ssc.assn.a4.webapp;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import java.io.File;
 import javax.servlet.ServletException;
 
@@ -11,11 +8,8 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 
-@SpringBootApplication
 public class Webapp {
     public static void main(String[] args) {
-        SpringApplication.run(Webapp.class, args);
-
         File docBase = new File("src/main/webapp/");
         docBase.mkdirs();
         Tomcat tomcat = new Tomcat();
