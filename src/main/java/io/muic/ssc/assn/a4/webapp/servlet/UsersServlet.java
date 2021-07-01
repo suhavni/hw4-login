@@ -64,10 +64,10 @@ public class UsersServlet extends HttpServlet implements Routable {
         StringBuilder stringBuilder = new StringBuilder();
         if (currentUser.equals(username)) {
             stringBuilder.append("<form action=\"/edit-user\" method=\"post\">");
-            stringBuilder.append("<input type = \"hidden\" name = \"username\" value = ").append(username).append(" />");
             stringBuilder.append("<input type=\"submit\" value=\"Edit User\">");
         } else {
             stringBuilder.append("<form action=\"/remove-user\" method=\"post\">");
+            stringBuilder.append("<input type = \"hidden\" name = \"delete\" value = ").append(username).append(" />");
             stringBuilder.append("<input type=\"submit\" value=\"Remove User\">");
         }
         stringBuilder.append("</form>");

@@ -23,6 +23,7 @@ public class ServletRouter {
         routables.add(LoginServlet.class);
         routables.add(LogoutServlet.class);
         routables.add(AddUserServlet.class);
+        routables.add(RemoveUserServlet.class);
     }
 
     private SecurityService securityService;
@@ -39,9 +40,7 @@ public class ServletRouter {
                 String name = routable.getClass().getSimpleName();
                 Tomcat.addServlet(ctx, name, (HttpServlet) routable);
                 ctx.addServletMapping(routable.getMapping(), name);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

@@ -99,4 +99,16 @@ public class SecurityService {
             return false;
         }
     }
+
+    public void removeUser(String username) {
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            st = connection.prepareStatement("DELETE FROM users WHERE username = '" + username + "'");
+            st.executeUpdate();
+            st.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
