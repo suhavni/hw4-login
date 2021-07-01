@@ -35,7 +35,7 @@ public class AddUserServlet extends HttpServlet implements Routable {
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
             if (! securityService.hasUsername(username)) {
                 securityService.addUser(username, password);
-                response.sendRedirect("/");
+                response.sendRedirect("/users");
             } else {
                 String error = "This username already exists.";
                 request.setAttribute("error", error);

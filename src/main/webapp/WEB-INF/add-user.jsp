@@ -16,7 +16,7 @@
             <br><br>
             <input type="submit" value="Submit">
         </form>
-        <form action="/" method="post">
+        <form action="/users" method="post">
             <input type="submit" value="Cancel">
         </form>
     </body>

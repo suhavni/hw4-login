@@ -16,7 +16,7 @@
         <form action="/remove-user" method="post">
             <input type="submit" value="Back">
         </form>
-        <form action="/" method="post">
+        <form action="/users" method="post">
             <input type="submit" value="Cancel">
         </form>
     </body>

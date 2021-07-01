@@ -19,12 +19,10 @@ public class ServletRouter {
     private static final List<Class<? extends Routable>> routables = new ArrayList<>();
 
     static {
-        routables.add(HomeServlet.class);
+        routables.add(UsersServlet.class);
         routables.add(LoginServlet.class);
         routables.add(LogoutServlet.class);
         routables.add(AddUserServlet.class);
-        routables.add(RemoveUserServlet.class);
-        routables.add(ConfirmationServlet.class);
     }
 
     private SecurityService securityService;

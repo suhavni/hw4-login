@@ -23,16 +23,21 @@ public class SecurityService {
         addUser("muic", "1111");
     }
 
-    private final Map<String, String> userCredentials = new HashMap<String, String>() {{
-        put("admin", "123456");
-        put("muic", "1111");
-    }};
-
     public boolean isAuthorized(HttpServletRequest request) {
         String username = (String) request.getSession()
                 .getAttribute("username");
         // do checking
-       return (username != null && userCredentials.containsKey(username));
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
+            boolean containsUsername = (username != null && rs.next());
+            connection.close();
+            return containsUsername;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     public boolean authenticate(String username, String password, HttpServletRequest request) {
@@ -44,7 +49,6 @@ public class SecurityService {
             rs.next();
             String hashedPassword = rs.getString("hashed_password");
             boolean isMatched = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword).verified;
-            st.close();
             connection.close();
             if (isMatched) {
                 request.getSession().setAttribute("username", username);
@@ -71,18 +75,9 @@ public class SecurityService {
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-        userCredentials.put(username, password);
     }
-
-    public void removeUser(String username) {
-        userCredentials.remove(username);
-    }
-
     public void logout(HttpServletRequest request) {
         request.getSession().invalidate();
     }
 
-    public boolean hasUsername(String username) {
-        return userCredentials.containsKey(username);
-    }
 }
