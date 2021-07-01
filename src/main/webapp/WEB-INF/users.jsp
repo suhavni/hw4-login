@@ -9,8 +9,6 @@
         <form action="/add-user" method="post">
             <input type="submit" value="Add User">
         </form>
-        <form action="/remove-user" method="post">
-            <input type="submit" value="Remove User">
-        </form>
+        <p>${table}</p>
     </body>
 </html>

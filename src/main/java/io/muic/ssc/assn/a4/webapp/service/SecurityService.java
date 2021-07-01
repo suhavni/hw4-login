@@ -6,22 +6,18 @@
 package io.muic.ssc.assn.a4.webapp.service;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.muic.ssc.assn.a4.webapp.DatabaseConnection;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SecurityService {
     private Connection connection;
     private PreparedStatement st;
-
-    public SecurityService() {
-        addUser("admin", "123456");
-        addUser("muic", "1111");
-    }
+    private Statement statement;
 
     public boolean isAuthorized(HttpServletRequest request) {
         String username = (String) request.getSession()
@@ -34,11 +30,12 @@ public class SecurityService {
 //        String passwordInDB = userCredentials.get(username);
         try {
             connection = DatabaseConnection.initializeDatabase();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT username, hashed_password FROM users WHERE username = '" + username + "'");
             rs.next();
             String hashedPassword = rs.getString("hashed_password");
             boolean isMatched = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword).verified;
+            statement.close();
             connection.close();
             if (isMatched) {
                 request.getSession().setAttribute("username", username);
@@ -55,7 +52,7 @@ public class SecurityService {
     public void addUser(String username, String password) {
         try {
             connection = DatabaseConnection.initializeDatabase();
-            st = connection.prepareStatement("INSERT INTO users VALUES(?, ?);");
+            st = connection.prepareStatement("INSERT INTO users(username, hashed_password) VALUES(?, ?);");
             st.setString(1, username);
             String hashed = BCrypt.with(new SecureRandom()).hashToString(12, password.toCharArray());
             st.setString(2, hashed);
@@ -66,6 +63,24 @@ public class SecurityService {
             throwables.printStackTrace();
         }
     }
+
+    public Iterable<String> getUsers() {
+        List<String> users = new ArrayList<>();
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT username FROM users");
+            while(rs.next()) {
+                users.add(rs.getString("username"));
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        return users;
+    }
+
     public void logout(HttpServletRequest request) {
         request.getSession().invalidate();
     }
@@ -73,9 +88,10 @@ public class SecurityService {
     public boolean hasUsername(String username) {
         try {
             connection = DatabaseConnection.initializeDatabase();
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
             boolean containsUsername = rs.next();
+            statement.close();
             connection.close();
             return containsUsername;
         } catch (SQLException | ClassNotFoundException throwables) {

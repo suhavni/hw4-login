@@ -8,4 +8,11 @@
         <error-code>404</error-code>
         <location>/users</location>
     </error-page>
+
+    <resource-ref>
+        <description>User Informations</description>
+        <res-ref-name>jdbc/user_information</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 </web-app>
