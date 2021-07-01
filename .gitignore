@@ -1,5 +1,4 @@
 .idea/
 target/
-*.iml
-.DS_Store
+login-webapp.iml
 tomcat.8082/
