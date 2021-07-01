@@ -27,17 +27,7 @@ public class SecurityService {
         String username = (String) request.getSession()
                 .getAttribute("username");
         // do checking
-        try {
-            connection = DatabaseConnection.initializeDatabase();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
-            boolean containsUsername = (username != null && rs.next());
-            connection.close();
-            return containsUsername;
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return username != null && hasUsername(username);
     }
 
     public boolean authenticate(String username, String password, HttpServletRequest request) {
@@ -80,4 +70,17 @@ public class SecurityService {
         request.getSession().invalidate();
     }
 
+    public boolean hasUsername(String username) {
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
+            boolean containsUsername = rs.next();
+            connection.close();
+            return containsUsername;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
 }

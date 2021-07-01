@@ -36,7 +36,7 @@ public class UsersServlet extends HttpServlet implements Routable {
             // do MVC in here
             String username = (String) request.getSession().getAttribute("username");
             request.setAttribute("username", username);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
             rd.include(request, response);
         } else {
             response.sendRedirect("/login");
