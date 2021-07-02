@@ -1,6 +1,5 @@
 package io.muic.ssc.assn.a4.webapp.servlet;
 
-import io.muic.ssc.assn.a4.webapp.User;
 import io.muic.ssc.assn.a4.webapp.service.SecurityService;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
