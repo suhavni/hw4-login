@@ -12,11 +12,11 @@ public class DatabaseConnection {
         // Initialize all the information regarding
         // Database Connection
         String dbDriver = "com.mysql.jdbc.Driver";
-        String dbURL = "jdbc:mysql://localhost:3306/";
+        String dbURL = "jdbc:mysql://localhost:5555/";
         // Database name to access
-        String dbName = "MySQL80";
-        String dbUsername = "root";
-        String dbPassword = "root";
+        String dbName = "login";
+        String dbUsername = "pk";
+        String dbPassword = "suhavni";
 
         Class.forName(dbDriver);
         return DriverManager.getConnection(dbURL + dbName,

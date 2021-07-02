@@ -96,9 +96,9 @@
             <resource>
                 <directory>src/main/webapp/WEB-INF</directory>
             </resource>
-            <resource>
-                <directory>C:\Program Files (x86)\MySQL\Connector J 8.0\mysql-connector-java-8.0.25.jar!\com\mysql\jdbc</directory>
-            </resource>
+<!--            <resource>-->
+<!--                <directory>C:\Program Files (x86)\MySQL\Connector J 8.0\mysql-connector-java-8.0.25.jar!\com\mysql\jdbc</directory>-->
+<!--            </resource>-->
         </resources>
     </build>
 </project>
