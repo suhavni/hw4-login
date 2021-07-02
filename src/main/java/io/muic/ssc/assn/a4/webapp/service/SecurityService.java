@@ -41,7 +41,7 @@ public class SecurityService {
             throwables.printStackTrace();
         }
     }
-
+    
     public boolean authenticate(String username, String password, HttpServletRequest request) {
 //        String passwordInDB = userCredentials.get(username);
         try {
