@@ -31,10 +31,10 @@ public class SecurityService {
         try {
             connection = DatabaseConnection.initializeDatabase();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT username, hashed_password FROM users WHERE username = '" + username + "'");
+            ResultSet rs = statement.executeQuery("SELECT username, encrypted_password FROM users WHERE username = '" + username + "'");
             rs.next();
-            String hashedPassword = rs.getString("hashed_password");
-            boolean isMatched = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword).verified;
+            String encryptedPassword = rs.getString("encrypted_password");
+            boolean isMatched = BCrypt.verifyer().verify(password.toCharArray(), encryptedPassword).verified;
             statement.close();
             connection.close();
             if (isMatched) {
@@ -52,10 +52,10 @@ public class SecurityService {
     public void addUser(String username, String password) {
         try {
             connection = DatabaseConnection.initializeDatabase();
-            st = connection.prepareStatement("INSERT INTO users(username, hashed_password) VALUES(?, ?);");
+            st = connection.prepareStatement("INSERT INTO users(username, encrypted_password) VALUES(?, ?);");
             st.setString(1, username);
-            String hashed = BCrypt.with(new SecureRandom()).hashToString(12, password.toCharArray());
-            st.setString(2, hashed);
+            String encrypted = encryptPassword(password);
+            st.setString(2, encrypted);
             st.executeUpdate();
             st.close();
             connection.close();
@@ -110,5 +110,22 @@ public class SecurityService {
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public void updateColumn(String columnName, String username, String newColumnValue) {
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            String command = "UPDATE users SET " + columnName + " = '" + newColumnValue + "' WHERE username = '" + username + "'";
+            st = connection.prepareStatement(command);
+            st.executeUpdate();
+            st.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public String encryptPassword(String password) {
+        return BCrypt.with(new SecureRandom()).hashToString(12, password.toCharArray());
     }
 }

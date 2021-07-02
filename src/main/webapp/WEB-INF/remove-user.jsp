@@ -5,8 +5,9 @@
         <form action="/logout" method="post">
             <input type="submit" value="Log Out">
         </form>
-        <h3>Write your password to confirm removing user, ${delete}</h3>
+        <h3>Removing ${delete} <br><br></h3>
         <p>${error}</p>
+        <p>Put in your password to confirm</p>
         <form action="/remove-user" method="post">
             Password:<br/>
             <input type="password" name="password"/>
