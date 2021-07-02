@@ -37,6 +37,7 @@ public class UsersServlet extends HttpServlet implements Routable {
             String username = (String) request.getSession().getAttribute("username");
             request.setAttribute("username", username);
             request.setAttribute("table", printTable(username));
+            request.setAttribute("information", printUserInformation(username));
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/users.jsp");
             rd.include(request, response);
         } else {
@@ -44,8 +45,14 @@ public class UsersServlet extends HttpServlet implements Routable {
         }
     }
 
+    private String printUserInformation(String username) {
+        return "<p><b>Username</b>: " + username + "<br/>" +
+                "<b>First Name</b>: " + securityService.getColumnValue("firstname", username) + "<br/>" +
+                "<b>Last Name</b>: " + securityService.getColumnValue("lastname", username) + "<br/></p>";
+    }
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("/users");
     }
 
@@ -54,7 +61,7 @@ public class UsersServlet extends HttpServlet implements Routable {
         stringBuilder.append( "<table style=\"width:40%\">" );
         stringBuilder.append("<tr><th style=\"text-align:left\">Username</th><th style=\"text-align:left\">Action</th></tr>");
         for (String username : securityService.getUsers()) {
-            stringBuilder.append("<tr><td>" + username + "</td><td>" + getButton(currentUser, username) + "</td></tr>");
+            stringBuilder.append("<tr><td>").append(username).append("</td><td>").append(getButton(currentUser, username)).append("</td></tr>");
         }
         stringBuilder.append("</table>");
         return stringBuilder.toString();

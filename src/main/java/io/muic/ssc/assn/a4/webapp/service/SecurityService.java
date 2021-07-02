@@ -128,4 +128,20 @@ public class SecurityService {
     public String encryptPassword(String password) {
         return BCrypt.with(new SecureRandom()).hashToString(12, password.toCharArray());
     }
+
+    public String getColumnValue(String column, String username) {
+        try {
+            connection = DatabaseConnection.initializeDatabase();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
+            rs.next();
+            String columnValue = rs.getString(column);
+            statement.close();
+            connection.close();
+            return (columnValue != null) ? columnValue : "NULL";
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        return "NULL";
+    }
 }

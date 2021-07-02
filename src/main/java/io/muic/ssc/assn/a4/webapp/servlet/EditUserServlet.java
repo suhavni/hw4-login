@@ -63,8 +63,6 @@ public class EditUserServlet extends HttpServlet implements Routable {
                 response.sendRedirect("/users");
             }
         } else {
-            String error = "Wrong password.";
-            request.setAttribute("error", error);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/edit-user.jsp");
             rd.include(request, response);
         }
