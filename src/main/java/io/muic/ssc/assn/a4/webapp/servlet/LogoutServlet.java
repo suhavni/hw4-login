@@ -2,10 +2,6 @@ package io.muic.ssc.assn.a4.webapp.servlet;
 
 import io.muic.ssc.assn.a4.webapp.service.SecurityService;
 import java.io.IOException;
-<<<<<<< HEAD
-=======
-import javax.servlet.RequestDispatcher;
->>>>>>> f6e7c9329e97b9c17d74b714944db8bf144e36d0
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
