@@ -57,7 +57,7 @@ public class EditUserServlet extends HttpServlet implements Routable {
                 if (!StringUtils.isBlank(firstname)) {
                     securityService.updateColumn("firstname", username, firstname);
                 }
-                if (!StringUtils.isBlank(firstname)) {
+                if (!StringUtils.isBlank(lastname)) {
                     securityService.updateColumn("lastname", username, lastname);
                 }
                 securityService.authenticate(username, password, request);

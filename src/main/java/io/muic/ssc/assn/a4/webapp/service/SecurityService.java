@@ -154,10 +154,10 @@ public class SecurityService {
             String columnValue = rs.getString(column);
             statement.close();
             connection.close();
-            return (columnValue != null) ? columnValue : "NULL";
+            return (columnValue != null) ? columnValue : "";
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-        return "NULL";
+        return "";
     }
 }
