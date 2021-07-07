@@ -16,7 +16,7 @@ public class HomeServlet  extends HttpServlet implements Routable {
 
     @Override
     public String getMapping() {
-        return "/";
+        return "/index.jsp";
     }
 
     @Override
